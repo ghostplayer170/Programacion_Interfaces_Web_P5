@@ -1,0 +1,138 @@
+.cont-films {
+  display: grid;
+  grid-template-columns: 1fr; 
+  justify-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.cont-films h2 {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.cont-film {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 20px; 
+}
+
+.film {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.film img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.film h3 {
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.film p {
+  color: #666;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+.film ul {
+  list-style: none;
+  padding: 0;
+}
+
+.film ul li {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.modal {
+  display: block; /* Mostrar el modal */
+  position: fixed; /* Permanece en lugar fijo */
+  z-index: 1000; /* Se sitúa sobre otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%; /* Ancho completo */
+  height: 100%; /* Altura completa */
+  overflow: auto; /* Habilita scroll si es necesario */
+  background-color: rgba(0, 0, 0, 0.4); /* Negro con opacidad */
+}
+
+/* Contenido del modal */
+.modal-content {
+  position: relative; /* Relativo para el posicionamiento del botón de cerrar */
+  background-color: #fefefe;
+  margin: 15% auto; /* Margen para centrar automáticamente */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Ancho al 50% para dispositivos grandes y se ajusta según sea necesario */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar el modal */
+  animation: fadeIn 0.3s; /* Animación suave al abrir */
+}
+
+/* Botón para cerrar el modal */
+.close {
+  color: #aaa; /* Color gris claro */
+  position: absolute; /* Posicionamiento absoluto */
+  top: 10px;
+  right: 25px;
+  font-size: 35px; /* Tamaño grande para fácil clic */
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000; /* Cambia a negro al pasar el ratón o enfocar */
+  text-decoration: none;
+  cursor: pointer; /* Cambia el cursor a mano indicando clickeable */
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+/* Asegurando responsividad para dispositivos más pequeños */
+@media screen and (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Más ancho en dispositivos pequeños */
+    margin: 10% auto; /* Menor margen superior para más espacio */
+  }
+}
+
+.add, .delete, select {
+  background-color: #4caf50;
+  color: white;
+  padding: 0px 0px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.delete {
+  background-color: #c82b40;
+  color: white;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #c51f35;
+  }
+}
