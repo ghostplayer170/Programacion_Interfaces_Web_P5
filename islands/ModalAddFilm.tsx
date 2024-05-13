@@ -15,9 +15,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [addedFilm, setAddedFilm] = useState<boolean>(false);
   const [countAddedFilm, setCountAddedFilm] = useState<number>(0);
+  const [createdProject, setCreatedProject] = useState<boolean>(false);
 
   useEffect(() => {
-    // Load projects from multiple cookies
     const projectsLoaded: project[] = [];
     document.cookie.split("; ").forEach((cookie) => {
       if (cookie.startsWith("project_")) {
@@ -27,15 +27,22 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
     setProjects(projectsLoaded);
   }, []);
 
-  // useEffect to set selectedProjectID to the first project only if projects is not empty
   useEffect(() => {
-    if (projects.length > 0) {
-      setSelectedProjectID(projects[0]._id);
+    if (createdProject) {
+      setSelectedProjectID(projects[projects.length - 1]._id);
+      setCreatedProject(false);
     }
-  }, []);
+  }, [createdProject]);
+
+  useEffect(() => {
+    setCountAddedFilm(0);
+    setAddedFilm(false);
+  }, [selectedProjectID]);
 
   const onAddFilmToProject = (projectID: string, film: film) => {
-    // Add film to project
+    if (!projectID) {
+      return;
+    }
     const updatedProjects = projects.map((proj) => {
       if (proj._id === projectID) {
         const existingFilmIndex = proj.films.findIndex((f) =>
@@ -71,6 +78,7 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
     setSelectedProjectID(newProject._id);
     setProjectName("");
     setProjectDescription("");
+    setCreatedProject(true);
     setShowCreateProjectModal(false);
   };
 
