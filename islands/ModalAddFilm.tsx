@@ -13,32 +13,47 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
   const [selectedProjectID, setSelectedProjectID] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
+  const [addedFilm, setAddedFilm] = useState<boolean>(false);
+  const [countAddedFilm, setCountAddedFilm] = useState<number>(0);
 
   useEffect(() => {
     // Load projects from multiple cookies
     const projectsLoaded: project[] = [];
-    document.cookie.split('; ').forEach(cookie => {
-      if (cookie.startsWith('project_')) {
-        projectsLoaded.push(JSON.parse(cookie.split('=')[1]));
+    document.cookie.split("; ").forEach((cookie) => {
+      if (cookie.startsWith("project_")) {
+        projectsLoaded.push(JSON.parse(cookie.split("=")[1]));
       }
     });
     setProjects(projectsLoaded);
+  }, []);
+
+  // useEffect to set selectedProjectID to the first project only if projects is not empty
+  useEffect(() => {
+    if (projects.length > 0) {
+      setSelectedProjectID(projects[0]._id);
+    }
   }, []);
 
   const onAddFilmToProject = (projectID: string, film: film) => {
     // Add film to project
     const updatedProjects = projects.map((proj) => {
       if (proj._id === projectID) {
-        const existingFilmIndex = proj.films.findIndex(f => f.film._id === film._id);
+        const existingFilmIndex = proj.films.findIndex((f) =>
+          f.film._id === film._id
+        );
         if (existingFilmIndex !== -1) {
           proj.films[existingFilmIndex].quantity += 1;
         } else {
           proj.films.push({ film, quantity: 1 });
         }
-        document.cookie = `project_${proj._id}=${JSON.stringify(proj)}; path=/;`;
+        document.cookie = `project_${proj._id}=${
+          JSON.stringify(proj)
+        }; path=/;`;
       }
       return proj;
     });
+    setAddedFilm(true);
+    setCountAddedFilm(countAddedFilm + 1);
     setProjects(updatedProjects);
   };
 
@@ -49,7 +64,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
       description: projectDescription,
       films: [],
     };
-    document.cookie = `project_${newProject._id}=${JSON.stringify(newProject)}; path=/;`;
+    document.cookie = `project_${newProject._id}=${
+      JSON.stringify(newProject)
+    }; path=/;`;
     setProjects([...projects, newProject]);
     setSelectedProjectID(newProject._id);
     setProjectName("");
@@ -74,63 +91,83 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
             >
               &times;
             </span>
-            <h2>Add Film to Project</h2>
-            {projects.length > 0
-              ? (
-                <div>
-                  <select
-                    onChange={(e) =>
-                      setSelectedProjectID(e.currentTarget.value)}
-                    value={selectedProjectID}
-                  >
-                    {projects.map((proj) => (
-                      <option key={proj._id} value={proj._id}>
-                        {proj.name}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    onClick={() =>
-                      onAddFilmToProject(selectedProjectID, film)}
-                  >
-                    Add {film.name} to Project
-                  </button>
-                </div>
-              )
-              : <p>No projects found. Create a new one.</p>}
-            <button onClick={() => setShowCreateProjectModal(true)}>
-              Create New Project
-            </button>
+            <div class="cont-modal-add-and-create">
+              <div class="cont-modal-add-film">
+                <h3>Add Film to Project</h3>
+                {projects.length > 0
+                  ? (
+                    <div>
+                      <p>
+                        Add <strong>{film.name}</strong> to:
+                      </p>
+                      <select
+                        onChange={(e) =>
+                          setSelectedProjectID(e.currentTarget.value)}
+                        value={selectedProjectID}
+                      >
+                        {projects.map((proj) => (
+                          <option key={proj._id} value={proj._id}>
+                            {proj.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        class="modal-btn"
+                        onClick={() => onAddFilmToProject(selectedProjectID, film)}
+                      >
+                        Add Film
+                      </button>
+                      {addedFilm && (
+                        <p>
+                          <strong>{countAddedFilm}</strong>{" "}
+                          film added to project.
+                        </p>
+                      )}
+                    </div>
+                  )
+                  : <p>No projects found. Create a new one.</p>}
+              </div>
+              <div class="cont-modal-create-project">
+                <h3>Create New Project</h3>
+                <button
+                  class="modal-btn"
+                  onClick={() => setShowCreateProjectModal(true)}
+                >
+                  Create Project
+                </button>
+              </div>
+            </div>
           </div>
           {showCreateProjectModal && (
-            <div class="modals">
-              <div class="modal">
-                <div class="modal-content">
-                  <span
-                    class="close"
-                    onClick={() => {
-                      setProjectName("");
-                      setProjectDescription("");
-                      setShowCreateProjectModal(false);
-                    }}
-                  >
-                    &times;
-                  </span>
-                  <h2>Create New Project</h2>
-                  <input
-                    type="text"
-                    value={projectName}
-                    onBlur={(e) => setProjectName(e.currentTarget.value)}
-                    placeholder="Project Name"
-                  />
-                  <textarea
-                    value={projectDescription}
-                    onBlur={(e) => setProjectDescription(e.currentTarget.value)}
-                    placeholder="Project Description"
-                  >
-                  </textarea>
-                  <button onClick={handleCreate}>Create Project</button>
-                </div>
+            <div class="modal">
+              <div class="modal-content">
+                <span
+                  class="close"
+                  onClick={() => {
+                    setProjectName("");
+                    setProjectDescription("");
+                    setShowCreateProjectModal(false);
+                  }}
+                >
+                  &times;
+                </span>
+                <h3>Create New Project</h3>
+                <p>Enter the project name and description:</p>
+                <input
+                  type="text"
+                  value={projectName}
+                  onBlur={(e) => setProjectName(e.currentTarget.value)}
+                  placeholder="Project Name"
+                />
+                <textarea
+                  value={projectDescription}
+                  onBlur={(e) => setProjectDescription(e.currentTarget.value)}
+                  placeholder="Project Description"
+                >
+                </textarea>
+                <button class="modal-btn" onClick={handleCreate}>
+                  Create Project
+                </button>
               </div>
             </div>
           )}

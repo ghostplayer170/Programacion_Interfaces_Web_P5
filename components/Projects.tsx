@@ -10,7 +10,6 @@ type Data = {
 
 const Projects: FunctionComponent<Data> = ({ projects }) => {
   return (
-    console.log(projects),
     <>
       {projects.length > 0
         ? (

@@ -31,9 +31,9 @@ const ModalDeleteProject: FunctionComponent<Data> = (
             <span class="close" onClick={() => setShowModal(false)}>
               &times;
             </span>
-            <h2>Delete Project</h2>
+            <h3>Delete Project</h3>
             <p>Are you sure you want to delete this project?</p>
-            <button class="btn-delete" onClick={onDeleteProject}>Delete</button>
+            <button class="btn-delete modal-btn" onClick={onDeleteProject}>Delete</button>
           </div>
         </div>
       )}

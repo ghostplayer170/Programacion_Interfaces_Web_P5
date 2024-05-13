@@ -1,0 +1,71 @@
+.cont-films-filter {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.cont-films-filter h2 {
+    color: #ff00cc;
+    font-size: 2.5rem;
+    text-align: center;
+    text-shadow: 0 0 10px #ff00cc;
+    margin-bottom: 20px;
+}
+
+.cont-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 60px;
+}
+
+.filter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    gap: 25px;
+}
+
+.filter label {
+    color: #0ff;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px #0ff;
+}
+
+.filter input[type="text"],
+.filter select {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.filter select {
+    cursor: pointer;
+    appearance: none;
+}
+
+@media screen and (max-width: 768px) {
+    .cont-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter {
+        width: 100%;
+    }
+}

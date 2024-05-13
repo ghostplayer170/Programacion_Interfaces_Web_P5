@@ -24,9 +24,5 @@ export const handler: Handlers = {
 
 export default function FilmsHomePage(props: PageProps<Data>) {
   const films = props.data.films;
-  return (
-    <>
-      <FilmsPage films={films} />
-    </>
-  );
+  return <FilmsPage films={films} />
 }

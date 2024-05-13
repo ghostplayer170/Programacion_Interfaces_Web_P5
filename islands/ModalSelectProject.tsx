@@ -16,7 +16,7 @@ const ModalSelectProject: FunctionComponent<Data> = ({ projects }) => {
   return (
     <>
       <div class="ButtonSelect">
-        <span class="select" onClick={() => setShowModal(true)}>
+        <span class="select modal-btn" onClick={() => setShowModal(true)}>
           Select Project
         </span>
       </div>
@@ -26,12 +26,12 @@ const ModalSelectProject: FunctionComponent<Data> = ({ projects }) => {
             <span class="close" onClick={() => setShowModal(false)}>
               &times;
             </span>
-            <h2>Select Project</h2>
+            <h3>Select Project</h3>
             <div class="cont-projects">
               {projects.map((project) => (
                 <div class="project" key={project._id}>
                   <div class="cont-btn-select">
-                    <button onClick={() => onSelectProject(project.name)}>
+                    <button class="modal-btn btn-select-project" onClick={() => onSelectProject(project.name)}>
                       Select {project.name}
                     </button>
                   </div>

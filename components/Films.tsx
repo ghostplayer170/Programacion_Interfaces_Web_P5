@@ -13,16 +13,17 @@ const Films: FunctionComponent<Data> = ({ films }) => {
         {films.map((film) => (
           <div class="film" key={film._id}>
             <img src={film.staticImageUrl} alt={film.name} />
-            <h3>{film.name}</h3>
-            <p>{film.description}</p>
-            <p>Brand: {film.brand}</p>
-            <p>Color: {film.color ? "Yes" : "No"}</p>
-            <p>ISO: {film.iso}</p>
-            <p>Process: {film.process}</p>
-            <ModalAddFilm film={film} />
+            <div class="cont-film-info">
+              <h3>{film.name}</h3>
+              <p>{film.description}</p>
+              <p>Brand: {film.brand}</p>
+              <p>Color: {film.color ? "Yes" : "No"}</p>
+              <p>ISO: {film.iso}</p>
+              <p>Process: {film.process}</p>
+              <ModalAddFilm film={film} />
+            </div>
           </div>
         ))}
-        
       </div>
     </div>
   );

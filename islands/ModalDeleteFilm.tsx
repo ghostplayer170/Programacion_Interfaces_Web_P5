@@ -16,8 +16,12 @@ const ModalDeleteFilm: FunctionComponent<Props> = (
   const onDeleteFilmFromProject = () => {
     // Return only the project without the film to delete
     const updatedProject = projects.map((proj) => {
-      if (proj._id === projectID) {
-        proj.films = proj.films.filter(f => f.film._id !== filmID);
+      // if quantity is greater than 1, decrement quantity
+      const filmIndex = proj.films.findIndex((f) => f.film._id === filmID);
+      if (proj._id === projectID && proj.films[filmIndex].quantity > 1) {
+        proj.films[filmIndex].quantity -= 1;
+      } else {
+        proj.films = proj.films.filter((f) => f.film._id !== filmID);
       }
       return proj;
     });
@@ -37,9 +41,9 @@ const ModalDeleteFilm: FunctionComponent<Props> = (
             <span class="close" onClick={() => setShowModal(false)}>
               &times;
             </span>
-            <h2>Delete Film</h2>
+            <h3>Delete Film</h3>
             <p>Are you sure you want to delete this film from the project?</p>
-            <button class="btn-delete" onClick={onDeleteFilmFromProject}>
+            <button class="btn-delete modal-btn" onClick={onDeleteFilmFromProject}>
               Delete
             </button>
           </div>

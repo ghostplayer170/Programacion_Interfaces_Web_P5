@@ -1,0 +1,40 @@
+/* Container for the entire 404 error page */
+.cont-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #000; /* Black background for a stark contrast */
+}
+
+/* Container for the content on the 404 page */
+.cont-page-404 {
+    text-align: center; /* Center the text for all child elements */
+}
+
+/* Title styling for 404 page */
+.title-404 {
+    font-size: 4em; /* Large font size for emphasis */
+    color: #ff00cc; /* Neon pink, consistent with the Disco 2k theme */
+    text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc; /* Neon glow effect */
+}
+
+/* Paragraph styling for additional information */
+p {
+    font-size: 1.5em;
+    color: #fff; /* White text for readability */
+    margin: 20px 0; /* Spacing for visual separation */
+}
+
+/* Styling for the 'Go back home' link */
+a.underline {
+    font-size: 1.2em;
+    color: #0ff; /* Bright cyan, similar to neon signs */
+    text-decoration: none; /* No underline by default */
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+a.underline:hover {
+    color: #ff0; /* Neon yellow on hover */
+    text-shadow: 0 0 5px #ff0, 0 0 15px #ff0; /* Adding a glowing effect on hover */
+}

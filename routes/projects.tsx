@@ -23,7 +23,6 @@ export const handler: Handlers = {
         }
       }
     });
-    // If no projects were found, redirect to a 404 page
     if (projects.length === 0) {
       return await ctx.render({ projects: [] });
     }
