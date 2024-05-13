@@ -23,7 +23,7 @@ const ModalDeleteProject: FunctionComponent<Data> = (
   return (
     <>
       <div class="ButtonDelete">
-        <span class="delete" onClick={() => setShowModal(true)}>Delete</span>
+        <span class="delete" onClick={() => setShowModal(true)}>X</span>
       </div>
       {showModal && (
         <div class="modal">

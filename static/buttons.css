@@ -45,3 +45,16 @@
     background-color: #0ff;
     outline: none;
 }
+
+.btn-select-project, .btn-add-project {
+    padding: 10px 30px; 
+    min-width: 120px; 
+    display: inline-block; 
+    text-align: center; 
+}
+
+.btns-film {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}

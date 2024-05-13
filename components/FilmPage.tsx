@@ -9,8 +9,10 @@ type Data = {
 const FilmPage: FunctionComponent<Data> = ({ film }) => {
   return (
     <div>
-      <h1>Film</h1>
-      <Film film={film} />
+      <div class="header-film">
+        <h2 >Film {film.name}</h2>
+      </div>
+      <Film film={film} allInfo={true} />
     </div>
   );
 };

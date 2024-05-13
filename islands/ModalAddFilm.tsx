@@ -84,8 +84,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
 
   return (
     <>
-      <div class="ButtonAdd">
-        <span class="add" onClick={() => setShowModal(true)}>+</span>
+      <div class="ButtonAdd btns-film">
+        <span class="btn-add-project modal-btn" onClick={() => setShowModal(true)}>Add Film to Project</span>
+        <span class="btn-info-film modal-btn" onClick={() => window.location.href = `/film/${film._id}`}>View Film</span>
       </div>
       {showModal && (
         <div class="modal">
@@ -121,7 +122,8 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
                       </select>
                       <button
                         class="modal-btn"
-                        onClick={() => onAddFilmToProject(selectedProjectID, film)}
+                        onClick={() =>
+                          onAddFilmToProject(selectedProjectID, film)}
                       >
                         Add Film
                       </button>
@@ -139,7 +141,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
                 <h3>Create New Project</h3>
                 <button
                   class="modal-btn"
-                  onClick={() => setShowCreateProjectModal(true)}
+                  onClick={() => {
+                    setShowCreateProjectModal(true);
+                  }}
                 >
                   Create Project
                 </button>
@@ -162,12 +166,14 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
                 <h3>Create New Project</h3>
                 <p>Enter the project name and description:</p>
                 <input
+                  class="modal-input"
                   type="text"
                   value={projectName}
                   onBlur={(e) => setProjectName(e.currentTarget.value)}
                   placeholder="Project Name"
                 />
                 <textarea
+                  class="modal-textarea"
                   value={projectDescription}
                   onBlur={(e) => setProjectDescription(e.currentTarget.value)}
                   placeholder="Project Description"

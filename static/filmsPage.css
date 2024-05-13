@@ -6,7 +6,7 @@
     margin-bottom: 30px;
 }
 
-.cont-films-filter h2 {
+.cont-films-filter h2, .header-film h2 {
     color: #ff00cc;
     font-size: 2.5rem;
     text-align: center;

@@ -13,7 +13,7 @@ const ProjectsPage: FunctionComponent<Data> = ({ projects, dinamicPage }) => {
     <div>
       {!dinamicPage
         ? (
-          <div>
+          <div class="cont-page-projects">
             <h1>Projects</h1>
             <p>
               Here you can see all the projects and the films that are part of
@@ -22,7 +22,11 @@ const ProjectsPage: FunctionComponent<Data> = ({ projects, dinamicPage }) => {
             <ModalSelectProject projects={projects} />
           </div>
         )
-        : <h1>Project</h1>}
+        : (
+          <div class="cont-page-projects">
+            <h1>Project {projects[0].name}</h1>
+          </div>
+        )}
       <div class="cont-page-project">
         <Projects projects={projects} />
       </div>
