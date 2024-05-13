@@ -14,21 +14,14 @@ const ModalDeleteFilm: FunctionComponent<Props> = (
 ) => {
   const [showModal, setShowModal] = useState(false);
   const onDeleteFilmFromProject = () => {
-    // Update projects state with new film
-    const updatedProjects = projects.map((p) => {
-      if (p._id === projectID) {
-        // Check if the film already exists in the project
-        const existingFilmIndex = p.films.findIndex((f) =>
-          f.film._id === filmID
-        );
-        if (existingFilmIndex !== -1) {
-          // Remove film from project
-          p.films.splice(existingFilmIndex, 1);
-        }
+    // Return only the project without the film to delete
+    const updatedProject = projects.map((proj) => {
+      if (proj._id === projectID) {
+        proj.films = proj.films.filter(f => f.film._id !== filmID);
       }
-      return p; // Return project as is if it's not the selected project
+      return proj;
     });
-    document.cookie = `projects=${JSON.stringify(updatedProjects)}; path=/;`;
+    document.cookie = `project_${projectID}=${JSON.stringify(updatedProject[0])}; path=/;`;
     window.location.href = "/projects";
     setShowModal(false);
   };

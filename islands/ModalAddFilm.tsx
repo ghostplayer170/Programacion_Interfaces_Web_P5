@@ -1,5 +1,5 @@
 import { FunctionComponent } from "preact";
-import { film, filmItem, project } from "../types.ts";
+import { film, project } from "../types.ts";
 import { useEffect, useState } from "preact/hooks";
 
 type Props = {
@@ -10,54 +10,38 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
   const [projects, setProjects] = useState<project[]>([]);
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<string>("");
+  const [selectedProjectID, setSelectedProjectID] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
 
   useEffect(() => {
-    // Get projects from cookie
-    const projectsCookie = document.cookie.split("; ").find((c) =>
-      c.startsWith("projects=")
-    );
-    // If projects cookie exists, set projects state
-    if (projectsCookie) {
-      setProjects(JSON.parse(projectsCookie.split("=")[1]));
-    }
+    // Load projects from multiple cookies
+    const projectsLoaded: project[] = [];
+    document.cookie.split('; ').forEach(cookie => {
+      if (cookie.startsWith('project_')) {
+        projectsLoaded.push(JSON.parse(cookie.split('=')[1]));
+      }
+    });
+    setProjects(projectsLoaded);
   }, []);
 
-  const onAddFilmToProject = (projectID: string) => {
-    // Update projects state with new film
-    const updatedProjects = projects.map((p) => {
-      if (p._id === projectID) {
-        // Check if the film already exists in the project
-        const existingFilmIndex = p.films.findIndex((f) =>
-          f.film._id === film._id
-        );
-        if (existingFilmIndex === -1) {
-          // Add new film if it doesn't exist
-          const newFilmItem: filmItem = {
-            film: film,
-            quantity: 1,
-          };
-          return { ...p, films: [...p.films, newFilmItem] }; // Return project with new film
+  const onAddFilmToProject = (projectID: string, film: film) => {
+    // Add film to project
+    const updatedProjects = projects.map((proj) => {
+      if (proj._id === projectID) {
+        const existingFilmIndex = proj.films.findIndex(f => f.film._id === film._id);
+        if (existingFilmIndex !== -1) {
+          proj.films[existingFilmIndex].quantity += 1;
         } else {
-          // Increment quantity if film already exists
-          const newFilms = p.films.map((item, index) => {
-            if (index === existingFilmIndex) {
-              return { ...item, quantity: item.quantity + 1 };
-            }
-            return item;
-          });
-          return { ...p, films: newFilms }; // Return project with updated films
+          proj.films.push({ film, quantity: 1 });
         }
+        document.cookie = `project_${proj._id}=${JSON.stringify(proj)}; path=/;`;
       }
-      return p; // Return project as is if it's not the selected project
+      return proj;
     });
     setProjects(updatedProjects);
-    document.cookie = `projects=${JSON.stringify(updatedProjects)}; path=/;`;
   };
 
-  // Create new project
   const handleCreate = () => {
     const newProject: project = {
       _id: Date.now().toString(),
@@ -65,11 +49,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
       description: projectDescription,
       films: [],
     };
+    document.cookie = `project_${newProject._id}=${JSON.stringify(newProject)}; path=/;`;
     setProjects([...projects, newProject]);
-    document.cookie = `projects=${
-      JSON.stringify([...projects, newProject])
-    }; path=/;`;
-    setSelectedProject(newProject._id);
+    setSelectedProjectID(newProject._id);
     setProjectName("");
     setProjectDescription("");
     setShowCreateProjectModal(false);
@@ -97,8 +79,9 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
               ? (
                 <div>
                   <select
-                    onChange={(e) => setSelectedProject(e.currentTarget.value)}
-                    value={selectedProject}
+                    onChange={(e) =>
+                      setSelectedProjectID(e.currentTarget.value)}
+                    value={selectedProjectID}
                   >
                     {projects.map((proj) => (
                       <option key={proj._id} value={proj._id}>
@@ -106,7 +89,10 @@ const ModalAddFilm: FunctionComponent<Props> = ({ film }) => {
                       </option>
                     ))}
                   </select>
-                  <button onClick={() => onAddFilmToProject(selectedProject)}>
+                  <button
+                    onClick={() =>
+                      onAddFilmToProject(selectedProjectID, film)}
+                  >
                     Add {film.name} to Project
                   </button>
                 </div>

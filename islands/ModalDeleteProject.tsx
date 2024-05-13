@@ -15,7 +15,7 @@ const ModalDeleteProject: FunctionComponent<Data> = (
 
   const onDeleteProject = () => {
     const updatedProjects = projects.filter((p) => p._id !== projectID);
-    document.cookie = `projects=${JSON.stringify(updatedProjects)}; path=/;`;
+    document.cookie = `project_${projectID}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     window.location.href = "/projects";
     setShowModal(false);
   };

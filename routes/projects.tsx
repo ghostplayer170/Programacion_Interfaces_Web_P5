@@ -9,15 +9,23 @@ type Data = {
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: FreshContext<unknown, Data>) {
+    // Get all the projects from cookies
     const cookies = getCookies(_req.headers);
-    const projects: project[] = JSON.parse(cookies.projects);
+    const projects: project[] = [];
+    // Filter cookies that are projects
+    Object.keys(cookies).forEach((key) => {
+      if (key.startsWith("project_")) {
+        try {
+          const projectData = JSON.parse(cookies[key]);
+          projects.push(projectData);
+        } catch (e) {
+          console.error("Failed to parse project data from cookie:", key, e);
+        }
+      }
+    });
+    // If no projects were found, redirect to a 404 page
     if (projects.length === 0) {
-      return new Response("", {
-        status: 303,
-        headers: {
-          "Location": "/_404",
-        },
-      });
+      return await ctx.render({ projects: [] });
     }
     return await ctx.render({ projects });
   },
@@ -25,7 +33,7 @@ export const handler: Handlers = {
 
 const ProjectsHomePage = (props: PageProps<Data>) => {
   const projects = props.data.projects;
-  return <ProjectsPage projects={projects} />;
+  return <ProjectsPage projects={projects} dinamicPage={false} />;
 };
 
 export default ProjectsHomePage;

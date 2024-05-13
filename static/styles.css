@@ -111,7 +111,7 @@
   }
 }
 
-.add, .delete, select {
+.add, .delete, .select {
   background-color: #4caf50;
   color: white;
   padding: 0px 0px;

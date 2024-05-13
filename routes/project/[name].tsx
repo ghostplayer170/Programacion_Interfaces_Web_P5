@@ -11,15 +11,18 @@ export const handler: Handlers = {
   async GET(_req: Request, ctx: FreshContext<unknown, Data>) {
     const name = ctx.params.name;
     const cookies = getCookies(_req.headers);
-    const projects: project[] = JSON.parse(cookies.projects);
-    if (projects.length === 0) {
-      return new Response("", {
-        status: 303,
-        headers: {
-          "Location": "/_404",
-        },
-      });
-    }
+    const projects: project[] = [];
+    // Filter cookies that are projects
+    Object.keys(cookies).forEach((key) => {
+      if (key.startsWith("project_")) {
+        try {
+          const projectData = JSON.parse(cookies[key]);
+          projects.push(projectData);
+        } catch (e) {
+          console.error("Failed to parse project data from cookie:", key, e);
+        }
+      }
+    });
     const project = projects.find((project) =>
       project.name === name
     );
@@ -37,7 +40,7 @@ export const handler: Handlers = {
 
 const ProjectPage = (props: PageProps<Data>) => {
   const project = props.data.projects;
-  return <ProjectsPage projects={project} />;
+  return <ProjectsPage projects={project} dinamicPage={true} />;
 };
 
 export default ProjectPage;

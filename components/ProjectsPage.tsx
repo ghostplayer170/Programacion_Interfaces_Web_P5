@@ -5,16 +5,24 @@ import ModalSelectProject from "../islands/ModalSelectProject.tsx";
 
 type Data = {
   projects: project[];
+  dinamicPage: boolean;
 };
 
-const ProjectsPage: FunctionComponent<Data> = ({ projects }) => {
+const ProjectsPage: FunctionComponent<Data> = ({ projects, dinamicPage }) => {
   return (
     <div>
-      <h1>Projects</h1>
-      <p>
-        Here you can see all the projects and the films that are part of them.
-      </p>
-      <ModalSelectProject projects={projects} />
+      {!dinamicPage
+        ? (
+          <div>
+            <h1>Projects</h1>
+            <p>
+              Here you can see all the projects and the films that are part of
+              them.
+            </p>
+            <ModalSelectProject projects={projects} />
+          </div>
+        )
+        : <h1>Project</h1>}
       <div class="cont-page-project">
         <Projects projects={projects} />
       </div>
