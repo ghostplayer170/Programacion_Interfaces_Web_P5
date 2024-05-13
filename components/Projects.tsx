@@ -15,7 +15,7 @@ const Projects: FunctionComponent<Data> = ({ projects }) => {
         ? (
           <div class="cont-Projects">
             {projects.map((project, projIndex) => (
-              <div class="project" key={project._id}>
+              <div class="project" key={`${project._id}-${projIndex}`}>
                 <div class="header-project">
                   <h3>Project: {project.name}</h3>
                   <ModalDeleteProject
